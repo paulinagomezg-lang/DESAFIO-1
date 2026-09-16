@@ -4,8 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        FUNCIONES.cpp \
+        FUNCIONES_MODULO1.cpp \
         main.cpp
 
 HEADERS += \
-    PRUEBAFUNCIONES.h
+    FUNCIONES_MODULO1.h
