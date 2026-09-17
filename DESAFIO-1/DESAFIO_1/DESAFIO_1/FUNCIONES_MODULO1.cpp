@@ -61,7 +61,7 @@ void Establecer_fichas(unsigned char* PUNTERO_BLOQUE_MEMORIA, int fila, int colu
     int INDICE = fila*columnas+columna;
     int BIT_INICIAL = INDICE * BITS_POR_FICHA;
     int BYTE_INICIO = BIT_INICIAL/8;
-    int POS_DENTRO_BYTE = BIT_INICIAL%8;
+    int POS_DENTRO_BYTE = BIT_INICIAL%8; //Posiucion del bit dentro del byte0
 
     valor = valor & 0x07; //por más eficiencia, nos aseguramos en usar solo 3 bits
     if (POS_DENTRO_BYTE <= 5){
@@ -75,8 +75,8 @@ void Establecer_fichas(unsigned char* PUNTERO_BLOQUE_MEMORIA, int fila, int colu
 
         //limpiamos los bits con parte mas significativa
         unsigned char mascara_PRIMERBYTE = (unsigned char)~(((1<<BITS_EN_PRIMERBYTE)-1)<<POS_DENTRO_BYTE);
-        unsigned char PARTE_MENOS_SIGNIFICATIVA = valor & ((1<< BITS_EN_PRIMERBYTE)-1);
-        PUNTERO_BLOQUE_MEMORIA[BYTE_INICIO] = (PUNTERO_BLOQUE_MEMORIA[BYTE_INICIO]&mascara_PRIMERBYTE|(PARTE_MENOS_SIGNIFICATIVA<<POS_DENTRO_BYTE));
+        unsigned char PARTE_MENOS_SIGNIFICATIVA = valor & ((1<< BITS_EN_PRIMERBYTE)-1); //&= and comparacion
+        PUNTERO_BLOQUE_MEMORIA[BYTE_INICIO] = (PUNTERO_BLOQUE_MEMORIA[BYTE_INICIO]&mascara_PRIMERBYTE|(PARTE_MENOS_SIGNIFICATIVA<<POS_DENTRO_BYTE)); //buscar en el arreglo el bit buscado y le pongo la mascara
 
         //limpiamos los bits con parte menos significativa
         unsigned char mascara_SEGUNDOBYTE =(unsigned char)~((1<< BITS_EN_SEGUNBYTE)-1);

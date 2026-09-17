@@ -5,7 +5,9 @@ CONFIG -= qt
 
 SOURCES += \
         FUNCIONES_MODULO1.cpp \
+        FUNCIONES_MODULO2.cpp \
         main.cpp
 
 HEADERS += \
-    FUNCIONES_MODULO1.h
+    FUNCIONES_MODULO1.h \
+    FUNCIONES_MODULO2.h
