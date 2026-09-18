@@ -81,11 +81,44 @@ void Agregar_Columna(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int&colu
         for (int Columna_vieja = 0; Columna_vieja < Columnas_viejas; ++Columna_vieja) {
             int Columna_nueva = (Columna_vieja = Columna_vieja + (Columna_vieja >= posicion);
             unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila,  Columna_vieja, Columnas_viejas);
-
-
+            Establecer_fichas(NUEVO_PUNTERO_BLOQUE_MEMORIA, fila,Columna_nueva,Columnas_Nuevas, valor);
         }
+        //La columna en posicion de esta fila queda vacia (000)
+    }
+    liberatablero(PUNTERO_BLOQUE_MEMORIA);
+    PUNTERO_BLOQUE_MEMORIA = NUEVO_PUNTERO_BLOQUE_MEMORIA;
+    columnas = Columnas_Nuevas;
+    reserva_bytes = Byte_necesarios;
+}
 
+//FUNCION PARA CUANDO SE DESEE ELIMINAR COLUMNAS
+
+void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &Columnas, int &reserva_bytes, int posicion){
+    int Columnas_viejas = columnas;
+    int Columnas_Nuevas = columnas - 1;
+    int Byte_necesarios = calcularlosbytesnece(filas, Columnas_Nuevas);
+
+    int Bytes_Reservados_Final = reserva_bytes;
+    double Parte_de_uso = (double)Byte_necesarios /(double)reserva_bytes;
+    if (Parte_de_uso < Ocupacion_total_debajo){
+        Bytes_Reservados_Final = Byte_necesarios;
     }
 
+    unsigned char* NUEVO_PUNTERO_BLOQUE_MEMORIA = new unsigned char[Bytes_Reservados_Final];
+    for (int i = 0; i < Bytes_Reservados_Final; ++i) {
+        NUEVO_PUNTERO_BLOQUE_MEMORIA = 0;
+    }
+    for (int fila = 0; fila < filas; ++fila) {
+        for (int Columna_vieja = 0; Columna_vieja < Columnas_viejas; ++Columna_vieja) {
+            if (Columna_vieja == posicion) continue; //Esta es la columna que se elimina y Cancela únicamente la vuelta actual del bucle y pasa a la siguiente
+            int Columna_nueva = (Columna_vieja = Columna_vieja - (Columna_vieja >= posicion));
+            unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, Columna_vieja, Columnas_viejas);
+            Establecer_fichas(NUEVO_PUNTERO_BLOQUE_MEMORIA, fila, Columna_nueva, Columnas_Nuevas, valor);
+        }
+    }
+    liberatablero(PUNTERO_BLOQUE_MEMORIA);
+    PUNTERO_BLOQUE_MEMORIA = NUEVO_PUNTERO_BLOQUE_MEMORIA;
+    Columnas = Columnas_Nuevas;
+    reserva_bytes = Byte_necesarios;
 }
 
