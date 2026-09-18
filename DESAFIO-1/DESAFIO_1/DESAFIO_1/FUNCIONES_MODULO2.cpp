@@ -79,7 +79,7 @@ void Agregar_Columna(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int&colu
     //Columnas cambia y leemos unicamente el de columnas viejas y el mejor es columnasnuevas al escribir ya que el columnas viejas guarda el numero que no necesitamos
     for (int fila = 0; fila < filas; ++fila) {
         for (int Columna_vieja = 0; Columna_vieja < Columnas_viejas; ++Columna_vieja) {
-            int Columna_nueva = (Columna_vieja = Columna_vieja + (Columna_vieja >= posicion));
+            int Columna_nueva = Columna_vieja + (Columna_vieja >= posicion);
             unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila,  Columna_vieja, Columnas_viejas);
             Establecer_fichas(NUEVO_PUNTERO_BLOQUE_MEMORIA, fila,Columna_nueva,Columnas_Nuevas, valor);
         }
@@ -127,7 +127,7 @@ void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &c
 void Hacer_vivo_el_tablero(unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas , int columnas){
     for (int columna = 0; columna < columnas; ++columna) {
         int Filaencontrada = filas-1; //empezamos desde abajo del tablero
-        for (int fila = filas-1; fila >= filas; --fila) {
+        for (int fila = filas-1; fila >= 0; --fila) {
             unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas);
             if (valor != 0){ //0= vacio q son las que buscamos llenar
                 if (fila != Filaencontrada){
