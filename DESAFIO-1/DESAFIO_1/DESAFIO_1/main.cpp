@@ -1,9 +1,10 @@
 #include <iostream>
-#include "FUNCIONES_MODULO1.h"
+#include "FUNCIONES_MODULO2.h"
 using namespace std;
 
 int main()
 {
+    // MODULO 1: Acceso a Bits y Gestion Dinamica de Memoria.
     int filas = 3;
     int columnas = 3;
     int reserva_bytes = 0;
@@ -27,5 +28,31 @@ int main()
     cout<<"PUNTERO_BLOQUE_MEMORIA despues de escribir valores de prueba: "<<endl;
     Resultado_PUNTERO_BLOQUE_MEMORIA_BINARIO(Tablerito , reserva_bytes);
     cout <<endl;
+
+    //MODULO 2: Operaciones Estructurales y Lógica del Tablero.
+
+    cout <<"Tablero antes de inicializar sus secuencias"<<endl;
+    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
+    cout <<endl;
+
+    Agregar_fila(Tablerito, filas,columnas, reserva_bytes, 1);
+    cout <<"Despues de agregar fila en pos 1 "<<"("<<filas<<"x"<<columnas<<")"<<endl;
+    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
+    cout << "Los bytes reservados: "<<reserva_bytes<<endl;
+
+    Agregar_Columna(Tablerito, filas,columnas,reserva_bytes,2);
+    cout << "Despues de agregar columna en pos 2 "<<"("<<filas<<"x"<<columnas<<")"<<endl;
+    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
+    cout << "Los bytes reservados: "<<reserva_bytes<<endl;
+
+    Eliminar_fila(Tablerito, filas,columnas, reserva_bytes, 1);
+    Eliminar_columnas(Tablerito, filas,columnas, reserva_bytes, 2);
+    cout <<"Al eliminar la fila y columna que desea , quedara como la original"<<"("<<filas<<"x"<<columnas<<endl;
+    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
+    cout <<"Los bytes reservados: "<<reserva_bytes<<endl;
+
+
+
+
 
 }

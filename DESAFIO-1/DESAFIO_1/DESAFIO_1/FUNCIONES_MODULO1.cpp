@@ -97,3 +97,6 @@ void Resultado_PUNTERO_BLOQUE_MEMORIA_BINARIO(const unsigned char* PUNTERO_BLOQU
         cout<<endl;
     }
 }
+
+
+

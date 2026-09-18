@@ -79,7 +79,7 @@ void Agregar_Columna(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int&colu
     //Columnas cambia y leemos unicamente el de columnas viejas y el mejor es columnasnuevas al escribir ya que el columnas viejas guarda el numero que no necesitamos
     for (int fila = 0; fila < filas; ++fila) {
         for (int Columna_vieja = 0; Columna_vieja < Columnas_viejas; ++Columna_vieja) {
-            int Columna_nueva = (Columna_vieja = Columna_vieja + (Columna_vieja >= posicion);
+            int Columna_nueva = (Columna_vieja = Columna_vieja + (Columna_vieja >= posicion));
             unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila,  Columna_vieja, Columnas_viejas);
             Establecer_fichas(NUEVO_PUNTERO_BLOQUE_MEMORIA, fila,Columna_nueva,Columnas_Nuevas, valor);
         }
@@ -93,7 +93,7 @@ void Agregar_Columna(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int&colu
 
 //FUNCION PARA CUANDO SE DESEE ELIMINAR COLUMNAS
 
-void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &Columnas, int &reserva_bytes, int posicion){
+void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &columnas, int &reserva_bytes, int posicion){
     int Columnas_viejas = columnas;
     int Columnas_Nuevas = columnas - 1;
     int Byte_necesarios = calcularlosbytesnece(filas, Columnas_Nuevas);
@@ -118,7 +118,49 @@ void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &C
     }
     liberatablero(PUNTERO_BLOQUE_MEMORIA);
     PUNTERO_BLOQUE_MEMORIA = NUEVO_PUNTERO_BLOQUE_MEMORIA;
-    Columnas = Columnas_Nuevas;
+    columnas = Columnas_Nuevas;
     reserva_bytes = Byte_necesarios;
 }
 
+//HACER QUE LAS FICHAS SE MUEVAN DE FORMA REALISTA HACIEDNO QUE VIVA EL TABLEROW Y HAGA SUS CAIDAS
+
+void Hacer_vivo_el_tablero(unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas , int columnas){
+    for (int columna = 0; columna < columnas; ++columna) {
+        int Filaencontrada = filas-1; //empezamos desde abajo del tablero
+        for (int fila = 0; fila < filas; ++fila) {
+            unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas);
+            if (valor != 0){ //0= vacio q son las que buscamos llenar
+                if (fila != Filaencontrada){
+                    Establecer_fichas(PUNTERO_BLOQUE_MEMORIA, Filaencontrada, columna, columnas, valor);
+                    Establecer_fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas, 0);
+                }
+            --Filaencontrada;  //mueve el puntero una fila hacia arriba, preparándolo para la proxima ficha que toque acomodar
+                                //una encima de otra desde el fondo hacia arriba, sin sobrescribirse entre si
+            }
+        }
+    }
+}
+
+//RELLENAR LOS ESPACIOS VACIOS
+
+void Llenar_espacios_vacios(unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas , int columnas){
+    for (int fila = 0; fila < filas; ++fila) {
+        for (int columna = 0; columna < columnas; ++columna) {
+            unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas);
+            if (valor == 0){
+                unsigned char NUEVA_FICHA = (unsigned char)(rand() %6+1); //Valores de 1 a 6 ya que son los que elegimos como fichas llenas
+                Establecer_fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas, NUEVA_FICHA);
+            }
+        }
+    }
+}
+
+
+void Imprimir_Tablero_Legible(unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int columnas){
+    for (int fila = 0; fila < filas; ++fila) {
+        for (int columna = 0; columna < columnas; ++columna) {
+            cout << (int)Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas) << " ";
+        }
+        cout << endl;
+    }
+}
