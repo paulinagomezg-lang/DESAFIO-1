@@ -106,12 +106,12 @@ void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &c
 
     unsigned char* NUEVO_PUNTERO_BLOQUE_MEMORIA = new unsigned char[Bytes_Reservados_Final];
     for (int i = 0; i < Bytes_Reservados_Final; ++i) {
-        NUEVO_PUNTERO_BLOQUE_MEMORIA = 0;
+        NUEVO_PUNTERO_BLOQUE_MEMORIA[i] = 0;
     }
     for (int fila = 0; fila < filas; ++fila) {
         for (int Columna_vieja = 0; Columna_vieja < Columnas_viejas; ++Columna_vieja) {
             if (Columna_vieja == posicion) continue; //Esta es la columna que se elimina y Cancela únicamente la vuelta actual del bucle y pasa a la siguiente
-            int Columna_nueva = (Columna_vieja = Columna_vieja - (Columna_vieja >= posicion));
+            int Columna_nueva = Columna_vieja - (Columna_vieja >= posicion);
             unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, Columna_vieja, Columnas_viejas);
             Establecer_fichas(NUEVO_PUNTERO_BLOQUE_MEMORIA, fila, Columna_nueva, Columnas_Nuevas, valor);
         }
@@ -119,7 +119,7 @@ void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &c
     liberatablero(PUNTERO_BLOQUE_MEMORIA);
     PUNTERO_BLOQUE_MEMORIA = NUEVO_PUNTERO_BLOQUE_MEMORIA;
     columnas = Columnas_Nuevas;
-    reserva_bytes = Byte_necesarios;
+    reserva_bytes = Bytes_Reservados_Final;
 }
 
 //HACER QUE LAS FICHAS SE MUEVAN DE FORMA REALISTA HACIEDNO QUE VIVA EL TABLEROW Y HAGA SUS CAIDAS
@@ -127,7 +127,7 @@ void Eliminar_columnas(unsigned char* &PUNTERO_BLOQUE_MEMORIA, int filas, int &c
 void Hacer_vivo_el_tablero(unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas , int columnas){
     for (int columna = 0; columna < columnas; ++columna) {
         int Filaencontrada = filas-1; //empezamos desde abajo del tablero
-        for (int fila = 0; fila < filas; ++fila) {
+        for (int fila = filas-1; fila >= filas; --fila) {
             unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas);
             if (valor != 0){ //0= vacio q son las que buscamos llenar
                 if (fila != Filaencontrada){
