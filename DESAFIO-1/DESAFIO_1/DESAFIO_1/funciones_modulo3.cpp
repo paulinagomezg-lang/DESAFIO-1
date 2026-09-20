@@ -2,6 +2,8 @@
 #include "FUNCIONES_MODULO1.h"
 #include "FUNCIONES_MODULO2.h"
 #include "SIMBOLOGIA_FICHAS.h"
+#include <iostream>
+using namespace std;
 
 //MODULO 3 : REGLAS DEL JUEGO Y CASCADAS
 
@@ -46,7 +48,7 @@ void detectarCombis(const unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int 
                     for (int Fila_Actual = Fila_Inicio; Fila_Actual < fila; Fila_Actual++) {
                         marcas[Fila_Actual * columnas + columna] = 1;
                     }
-                    combosEncontrados++;
+                    Combos_Encontrados++;
                 }
             } else {
                 fila++;
@@ -55,6 +57,7 @@ void detectarCombis(const unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int 
     }
 }
 
+//ESTA FUNCION SE ENCARGA DE ELIMINAR LAS FICHAS YA DETECTADAS
 void revisarCombis(unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int columnas,const unsigned char* marcas,int& puntuacion, int& fichasEliminadasTotal) {
     for (int fila = 0; fila < filas; fila++) {
         for (int columna = 0; columna < columnas; columna++) {
@@ -68,9 +71,9 @@ void revisarCombis(unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int columna
     }
 }
 
-void ejecutarCicloCascada(unsigned char*& PUNTERO_BLOQUE_MEMORIA, int& filas, int& columnas, int& reserva_bytes,
-                          int& puntuacion, int& cascadasActuales,
-                          int& fichasEliminadasTotal, int& combinacionesDetectadas) {
+
+//ESTA FUNCION SE ENCARGA DE ORQUESTAR EL CICLO COMPLETO, REPITIENDO HASTA QUE EL TABLERO SE QUEDE ESTABLE
+void ejecutarCicloCascada(unsigned char*& PUNTERO_BLOQUE_MEMORIA, int& filas, int& columnas, int& reserva_bytes,int& puntuacion, int& cascadasActuales,  int& fichasEliminadasTotal, int& combinacionesDetectadas) {
     (void)reserva_bytes; // una cascada no cambia filas/columnas, se deja
     // el parametro por si a futuro se necesita
     cascadasActuales = 0;
