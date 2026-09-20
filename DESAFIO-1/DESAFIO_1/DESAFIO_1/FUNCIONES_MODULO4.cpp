@@ -9,15 +9,15 @@ using namespace std;
 //  static: esta funcion es de uso interno de este archivo (Modulo 4), no se expone a otros modulos
 static const char* simboloDeFicha(unsigned char valor) {
     switch (valor) {
-    case ESTADO_VACIO:    return "Ø";
-    case FICHA_RHO:       return "ρ";
-    case FICHA_PI:        return "π";
-    case FICHA_EPSILON:   return "ε";
-    case FICHA_DELTA:     return "Δ";
+    case ESTADO_VACIO:    return "?";
+    case FICHA_RHO:       return "&";
+    case FICHA_PI:        return "!";
+    case FICHA_EPSILON:   return "P";
+    case FICHA_DELTA:     return "G";
     case FICHA_X:         return "X";
     case FICHA_Y:         return "Y";
-    case ESTADO_ESPACIAL: return "$";
-    default:              return "?";
+    case ESTADO_ESPACIAL: return "C";
+    default:              return ".";
     }
 }
 

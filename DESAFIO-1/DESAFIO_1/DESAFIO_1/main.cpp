@@ -1,58 +1,94 @@
 #include <iostream>
-#include "FUNCIONES_MODULO2.h"
+#include <cstdlib>
+#include <ctime>
+#include "FUNCIONES_MODULO4.h"
 using namespace std;
 
 int main()
 {
-    // MODULO 1: Acceso a Bits y Gestion Dinamica de Memoria.
-    int filas = 3;
-    int columnas = 3;
+    srand((unsigned int)time(0)); // semilla distinta en cada partida real
+    int filas = 0, columnas = 0;
+    dimensionesIni(filas, columnas);
+
     int reserva_bytes = 0;
-
     unsigned char* Tablerito = creaciontablero(filas, columnas, reserva_bytes);
-    cout <<"tablero "<<filas<<" x"<<columnas<<endl;
-    cout <<"Bytes reservados: "<<reserva_bytes<<endl;
-    Resultado_PUNTERO_BLOQUE_MEMORIA_BINARIO(Tablerito , reserva_bytes);
-    cout <<endl;
 
-    unsigned char valores[9] ={1, 2, 3, 4, 5, 6, 1, 3, 1}; //Valores aleatorios para mirar si algunas funciones cumplen
-    int Contador =0;
+    Llenar_espacios_vacios(Tablerito, filas, columnas);
 
-    for (int fila = 0; fila < filas; ++fila) {
-        for (int columna = 0; columna < columnas; ++columna) {
-            Establecer_fichas( Tablerito,fila,columna,columnas,valores[Contador]);
-            Contador ++;
+    int puntuacion = 0, cascadasActuales = 0, fichasEliminadasTotal = 0;
+    int combinacionesDetectadas = 0, eliminacionesUsuario = 0;
+    ejecutarCicloCascada(Tablerito, filas, columnas, reserva_bytes,puntuacion, cascadasActuales,fichasEliminadasTotal, combinacionesDetectadas);
+
+    dibujarFichas(Tablerito, filas, columnas);mostrarProgreso(puntuacion, eliminacionesUsuario, fichasEliminadasTotal,combinacionesDetectadas, cascadasActuales);
+
+    // Ciclo principal del juego
+    bool jugando = true;
+    while (jugando) {
+        int Opcion_Elegida = menuPrincipal();
+
+        switch (Opcion_Elegida) {
+
+        case 1: { // Eliminar ficha
+            int Fila_Seleccionada = 0, Columna_Seleccionada = 0;
+            bool Selecciono = seleccionUsuario(filas, columnas, Fila_Seleccionada, Columna_Seleccionada);
+            if (Selecciono) {
+                Establecer_fichas(Tablerito, Fila_Seleccionada, Columna_Seleccionada, columnas, ESTADO_VACIO);
+                eliminacionesUsuario++;
+                ejecutarCicloCascada(Tablerito, filas, columnas, reserva_bytes,puntuacion, cascadasActuales,fichasEliminadasTotal, combinacionesDetectadas);
+            }
+            break;
+        }
+
+        case 2: { // Insertar fila
+            int Fila_Destino = seleccionIndice("Fila donde insertar", filas); // 0 a filas (incluye el final)
+            Agregar_fila(Tablerito, filas, columnas, reserva_bytes, Fila_Destino);
+            break;
+        }
+
+        case 3: { // Eliminar fila
+            if (filas <= 1) {
+                cout << "No se puede eliminar la unica fila que queda.\n";
+            } else {
+                int Fila_Destino = seleccionIndice("Fila a eliminar", filas - 1);
+                Eliminar_fila(Tablerito, filas, columnas, reserva_bytes, Fila_Destino);
+            }
+            break;
+        }
+
+        case 4: { // Insertar columna
+            int Columna_Destino = seleccionIndice("Columna donde insertar", columnas);
+            Agregar_Columna(Tablerito, filas, columnas, reserva_bytes, Columna_Destino);
+            break;
+        }
+
+        case 5: { // Eliminar columna
+            if (columnas <= 1) {
+                cout << "No se puede eliminar la unica columna que queda.\n";
+            } else {
+                int Columna_Destino = seleccionIndice("Columna a eliminar", columnas - 1);
+                Eliminar_columnas(Tablerito, filas, columnas, reserva_bytes, Columna_Destino);
+            }
+            break;
+        }
+
+        case 0: // Salir
+            jugando = false;
+            break;
+
+        default:
+            cout << "OPCION INVALIDA :0.\n";
+            break;
+        }
+
+        if (jugando) {
+            dibujarFichas(Tablerito, filas, columnas);
+            dibujarBinario(Tablerito, filas, columnas);
+            mostrarProgreso(puntuacion, eliminacionesUsuario, fichasEliminadasTotal,
+                            combinacionesDetectadas, cascadasActuales);
         }
     }
 
-    cout<<"PUNTERO_BLOQUE_MEMORIA despues de escribir valores de prueba: "<<endl;
-    Resultado_PUNTERO_BLOQUE_MEMORIA_BINARIO(Tablerito , reserva_bytes);
-    cout <<endl;
-
-    //MODULO 2: Operaciones Estructurales y Lógica del Tablero.
-
-    cout <<"Tablero antes de inicializar sus secuencias"<<endl;
-    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
-    cout <<endl;
-
-    Agregar_fila(Tablerito, filas,columnas, reserva_bytes, 1);
-    cout <<"Despues de agregar fila en pos 1 "<<"("<<filas<<"x"<<columnas<<")"<<endl;
-    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
-    cout << "Los bytes reservados: "<<reserva_bytes<<endl;
-
-    Agregar_Columna(Tablerito, filas,columnas,reserva_bytes,2);
-    cout << "Despues de agregar columna en pos 2 "<<"("<<filas<<"x"<<columnas<<")"<<endl;
-    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
-    cout << "Los bytes reservados: "<<reserva_bytes<<endl;
-
-    Eliminar_fila(Tablerito, filas,columnas, reserva_bytes, 1);
-    Eliminar_columnas(Tablerito, filas,columnas, reserva_bytes, 2);
-    cout <<"Al eliminar la fila y columna que desea , quedara como la original"<<"("<<filas<<"x"<<columnas<<endl;
-    Imprimir_Tablero_Legible(Tablerito, filas, columnas);
-    cout <<"Los bytes reservados: "<<reserva_bytes<<endl;
-
-
-
-
-
+    liberatablero(Tablerito);
+    cout << "GRACIAS POR JUGAR CON NUESTRO JUEGO <3.\n";
+    return 0;
 }
