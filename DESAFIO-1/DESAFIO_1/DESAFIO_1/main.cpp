@@ -42,6 +42,8 @@ int main()
         case 2: { // Insertar fila
             int Fila_Destino = seleccionIndice("Fila donde insertar", filas); // 0 a filas (incluye el final)
             Agregar_fila(Tablerito, filas, columnas, reserva_bytes, Fila_Destino);
+            Llenar_espacios_vacios(Tablerito, filas, columnas); // puebla la fila nueva
+            ejecutarCicloCascada(Tablerito, filas, columnas, reserva_bytes,puntuacion, cascadasActuales,fichasEliminadasTotal, combinacionesDetectadas);
             break;
         }
 
@@ -51,6 +53,7 @@ int main()
             } else {
                 int Fila_Destino = seleccionIndice("Fila a eliminar", filas - 1);
                 Eliminar_fila(Tablerito, filas, columnas, reserva_bytes, Fila_Destino);
+                ejecutarCicloCascada(Tablerito, filas, columnas, reserva_bytes,puntuacion, cascadasActuales,fichasEliminadasTotal, combinacionesDetectadas);
             }
             break;
         }
@@ -58,6 +61,8 @@ int main()
         case 4: { // Insertar columna
             int Columna_Destino = seleccionIndice("Columna donde insertar", columnas);
             Agregar_Columna(Tablerito, filas, columnas, reserva_bytes, Columna_Destino);
+            Llenar_espacios_vacios(Tablerito, filas, columnas); // puebla la columna nueva
+            ejecutarCicloCascada(Tablerito, filas, columnas, reserva_bytes,puntuacion, cascadasActuales,fichasEliminadasTotal, combinacionesDetectadas);
             break;
         }
 
@@ -67,6 +72,7 @@ int main()
             } else {
                 int Columna_Destino = seleccionIndice("Columna a eliminar", columnas - 1);
                 Eliminar_columnas(Tablerito, filas, columnas, reserva_bytes, Columna_Destino);
+                ejecutarCicloCascada(Tablerito, filas, columnas, reserva_bytes,puntuacion, cascadasActuales,fichasEliminadasTotal, combinacionesDetectadas);
             }
             break;
         }

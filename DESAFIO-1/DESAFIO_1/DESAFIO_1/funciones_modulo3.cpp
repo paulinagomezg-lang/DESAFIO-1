@@ -8,7 +8,7 @@ using namespace std;
 //MODULO 3 : REGLAS DEL JUEGO Y CASCADAS
 
 //ESTA FUNCION SE ENCARGA DE DETECTAR LAS CMBINACIONES ENCOONTRADAS, PERO SIN ELIMINAR NADA
-void detectarCombis(const unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int columnas,unsigned char* marcas, int& Combos_Encontrados) {
+    void detectarCombis(const unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int columnas,unsigned char* marcas, int& Combos_Encontrados) {
     Combos_Encontrados = 0;
 
     // quien la llama solo necesita reservar el arreglo (tamano filas*columnas), no inicializarlo.
@@ -81,6 +81,14 @@ void ejecutarCicloCascada(unsigned char*& PUNTERO_BLOQUE_MEMORIA, int& filas, in
     const int Max_Vueltas_Cascada = 10000;
 
     while (cascadasActuales < Max_Vueltas_Cascada) {
+        // Gravedad y relleno van PRIMERO, siempre -- incluso en la primera
+        // vuelta. Si el jugador acaba de eliminar una ficha manualmente,
+        // ese hueco no cuenta como "combo" y nunca se detectaria nada; sin
+        // este paso incondicional, la gravedad y el relleno jamas se
+        // ejecutarian para una eliminacion suelta.
+        Hacer_vivo_el_tablero(PUNTERO_BLOQUE_MEMORIA, filas, columnas);     // Modulo 2 (gravedad)
+        Llenar_espacios_vacios(PUNTERO_BLOQUE_MEMORIA, filas, columnas);    // Modulo 2 (relleno)
+
         unsigned char* marcas = new unsigned char[filas * columnas];
 
         int Combos_Esta_Vuelta = 0;
@@ -95,10 +103,6 @@ void ejecutarCicloCascada(unsigned char*& PUNTERO_BLOQUE_MEMORIA, int& filas, in
         revisarCombis(PUNTERO_BLOQUE_MEMORIA, filas, columnas, marcas, puntuacion, fichasEliminadasTotal);
         delete[] marcas;
 
-        Hacer_vivo_el_tablero(PUNTERO_BLOQUE_MEMORIA, filas, columnas);     // Modulo 2 (gravedad)
-        Llenar_espacios_vacios(PUNTERO_BLOQUE_MEMORIA, filas, columnas);    // Modulo 2 (relleno)
-
         cascadasActuales++;
     }
 }
-

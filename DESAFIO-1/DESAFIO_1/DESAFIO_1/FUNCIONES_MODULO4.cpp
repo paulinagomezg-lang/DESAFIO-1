@@ -10,10 +10,10 @@ using namespace std;
 static const char* simboloDeFicha(unsigned char valor) {
     switch (valor) {
     case ESTADO_VACIO:    return "?";
-    case FICHA_RHO:       return "&";
-    case FICHA_PI:        return "!";
-    case FICHA_EPSILON:   return "P";
-    case FICHA_DELTA:     return "G";
+    case FICHA_AMPERSAND:       return "&";
+    case FICHA_EXCLAMACION:        return "!";
+    case FICHA_P:   return "P";
+    case FICHA_G:     return "G";
     case FICHA_X:         return "X";
     case FICHA_Y:         return "Y";
     case ESTADO_ESPACIAL: return "C";

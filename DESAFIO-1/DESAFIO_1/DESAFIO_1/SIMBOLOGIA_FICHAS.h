@@ -4,15 +4,15 @@
 
 // Aqui solo agregamos los codigos de las 6 fichas normales ya que el modulo 3 las necesita conocer
 
-const unsigned char FICHA_RHO     = 1; // 001 - ρ
-const unsigned char FICHA_PI      = 2; // 010 - π
-const unsigned char FICHA_EPSILON = 3; // 011 - ε
-const unsigned char FICHA_DELTA   = 4; // 100 - Δ
-const unsigned char FICHA_X       = 5; // 101 - X
-const unsigned char FICHA_Y       = 6; // 110 - Y
+const unsigned char FICHA_AMPERSAND= 1; // 001
+const unsigned char FICHA_EXCLAMACION = 2; // 010
+const unsigned char FICHA_P = 3; // 011
+const unsigned char FICHA_G= 4; // 100
+const unsigned char FICHA_X= 5; // 101
+const unsigned char FICHA_Y= 6; // 110
 //si el usuario ingresa etre 1 y 6 tenemos que ter encuenta que vacio y espacial quedan excuidas de la detecciom de combinaciond¿es por defecto
 inline bool esFichaNormal(unsigned char valor) { //inline:compilador puede copiar el código de la función directamente en el lugar donde se llama
-    return valor >= FICHA_RHO && valor <= FICHA_Y;
+    return valor >= FICHA_AMPERSAND && valor <= FICHA_Y;
 }
 
 const int LONGITUD_MINIMA_COMBO = 3; // cuantas fichas seguidas hacen na combinacion
