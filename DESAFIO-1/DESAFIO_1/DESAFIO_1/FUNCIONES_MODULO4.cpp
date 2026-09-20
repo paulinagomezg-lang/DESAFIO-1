@@ -63,8 +63,7 @@ void dibujarBinario(const unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int 
     cout << endl;
 }
 
-void mostrarProgreso(int puntuacion, int eliminacionesUsuario, int fichasEliminadasTotal,
-                     int combinacionesDetectadas, int cascadasActuales) {
+void mostrarProgreso(int puntuacion, int eliminacionesUsuario, int fichasEliminadasTotal,int combinacionesDetectadas, int cascadasActuales) {
     cout <<"ESTADO DEL JUEGO :)"<<endl;
     cout << "PUNTUACION: " << puntuacion << endl;
     cout << "ELIMINACIONES DEL USUARIO: " << eliminacionesUsuario << endl;
