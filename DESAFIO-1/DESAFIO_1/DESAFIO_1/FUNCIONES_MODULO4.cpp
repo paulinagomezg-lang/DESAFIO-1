@@ -6,7 +6,7 @@
 using namespace std;
 
 // Traduce el código de 3 bits al símbolo acordado por el equipo.
-// Nota: devuelve const char* (literal de C)
+//  static: esta funcion es de uso interno de este archivo (Modulo 4), no se expone a otros modulos
 static const char* simboloDeFicha(unsigned char valor) {
     switch (valor) {
     case ESTADO_VACIO:    return "Ø";
@@ -22,7 +22,7 @@ static const char* simboloDeFicha(unsigned char valor) {
 }
 
 
-static int leerEnteroValidado() { // static: constante global Y HACE QUE EQL VALOR NO SE BORRE Y SOLO SE PUEDE UTILIZAR ENMODULO 1
+static int leerEnteroValidado() { // static: esta funcion es de uso interno de este archivo (Modulo 4), no se expone a otros modulos
     int valor;
     while (!(cin >> valor)) {
         if (cin.eof()) {
@@ -41,7 +41,7 @@ void dibujarFichas(const unsigned char* PUNTERO_BLOQUE_MEMORIA, int filas, int c
     for (int fila = 0; fila < filas; fila++) {
         for (int columna = 0; columna < columnas; columna++) {
             unsigned char valor = Obtener_Fichas(PUNTERO_BLOQUE_MEMORIA, fila, columna, columnas);
-            cout << simboloDeFicha(valor) << " "<<endl;
+            cout << simboloDeFicha(valor) << " ";
         }
         cout << endl;
     }
